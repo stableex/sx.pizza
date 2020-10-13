@@ -1,6 +1,7 @@
 #pragma once
 
 #include <eosio/asset.hpp>
+#include <eosio/singleton.hpp>
 
 namespace pizza {
 
@@ -8,6 +9,7 @@ namespace pizza {
     using eosio::symbol;
     using eosio::name;
     using eosio::multi_index;
+    using eosio::singleton;
 
     using std::pair;
 
@@ -42,10 +44,8 @@ namespace pizza {
         asset           history_bank_major;
         asset           history_fee;
         uint32_t        time;
-
-        uint64_t primary_key() const { return id; }
     };
-    typedef eosio::multi_index< "total"_n, total_row > total;
+    typedef eosio::singleton< "total"_n, total_row > total;
 
     /**
      * ## STATIC `get_fee`
@@ -97,7 +97,8 @@ namespace pizza {
     {
         // table
         pizza::total _pairs( pair_id, pair_id.value );
-        auto pairs = _pairs.get( 0, "PizzaLibrary: INVALID_PAIR_ID" );
+        eosio::check( _pairs.exists(), "PizzaLibrary: INVALID_PAIR_ID");
+        auto pairs = _pairs.get();
         eosio::check( pairs.total_minor.symbol == sort || pairs.total_major.symbol == sort, "sort symbol does not match" );
 
         return sort == pairs.total_minor.symbol ?
