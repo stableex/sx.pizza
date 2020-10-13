@@ -36,7 +36,7 @@ Get reserves for a pair
 
 ### params
 
-- `{name} pair_id` - pair id
+- `{uint64_t} pair_id` - pair id
 - `{symbol} sort` - sort by symbol (reserve0 will be first item in pair)
 
 ### returns
@@ -46,7 +46,7 @@ Get reserves for a pair
 ### example
 
 ```c++
-const name pair_id = "eos2usde";
+const uint64_t pair_id = "eos2usde"_n.value;
 const symbol sort = symbol{"EOS", 4};
 
 const auto [reserve0, reserve1] = pizza::get_reserves( pair_id, sort );
