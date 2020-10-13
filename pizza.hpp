@@ -98,7 +98,7 @@ namespace pizza {
     static pair<asset, asset> get_reserves( const uint64_t pair_id, const symbol sort )
     {
         // table
-        pizza::total _total( name{pair_id}, name{pair_id}.value );
+        pizza::total _total( "pzaswapcntct"_n, name{pair_id}.value );
         auto total = _total.get(0, "PizzaLibrary: INVALID_PAIR_ID");
         eosio::check( total.total_minor.symbol == sort || total.total_major.symbol == sort, "sort symbol does not match" );
 
