@@ -10,7 +10,7 @@ public:
     using contract::contract;
 
     [[eosio::action]]
-    void getreserves( const name pair_id, const symbol sort )
+    void getreserves( const uint64_t pair_id, const symbol sort )
     {
         const auto [ reserveIn, reserveOut] = pizza::get_reserves(pair_id, sort );
         print( reserveIn );

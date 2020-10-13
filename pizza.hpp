@@ -44,8 +44,10 @@ namespace pizza {
         asset           history_bank_major;
         asset           history_fee;
         uint32_t        time;
+
+        uint64_t primary_key() const { return 0; }
     };
-    typedef eosio::singleton< "total"_n, total_row > total;
+    typedef eosio::multi_index< "total"_n, total_row > total;
 
     /**
      * ## STATIC `get_fee`
@@ -96,13 +98,12 @@ namespace pizza {
     static pair<asset, asset> get_reserves( const uint64_t pair_id, const symbol sort )
     {
         // table
-        pizza::total _pairs( name{pair_id}, name{pair_id}.value );
-        eosio::check( _pairs.exists(), "PizzaLibrary: INVALID_PAIR_ID");
-        auto pairs = _pairs.get();
-        eosio::check( pairs.total_minor.symbol == sort || pairs.total_major.symbol == sort, "sort symbol does not match" );
+        pizza::total _total( name{pair_id}, name{pair_id}.value );
+        auto total = _total.get(0, "PizzaLibrary: INVALID_PAIR_ID");
+        eosio::check( total.total_minor.symbol == sort || total.total_major.symbol == sort, "sort symbol does not match" );
 
-        return sort == pairs.total_minor.symbol ?
-            pair<asset, asset>{ pairs.total_minor, pairs.total_major } :
-            pair<asset, asset>{ pairs.total_major, pairs.total_minor };
+        return sort == total.total_minor.symbol ?
+            pair<asset, asset>{ total.total_minor, total.total_major } :
+            pair<asset, asset>{ total.total_major, total.total_minor };
     }
 }

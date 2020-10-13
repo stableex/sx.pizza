@@ -13,7 +13,8 @@ cleos create account eosio basic EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5
 cleos set contract basic . basic.wasm basic.abi
 
 # getreserve
-cleos -v push action basic getreserves '["eos2usde", "4,EOS"]' -p basic
+# "eos2usde"_n.value => 6138456187445706752
+cleos -v push action basic getreserves '[6138456187445706752, "4,EOS"]' -p basic
 # //=>
 
 # getfee
