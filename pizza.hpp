@@ -9,13 +9,11 @@ namespace pizza {
     using eosio::symbol;
     using eosio::name;
     using eosio::multi_index;
-    using eosio::singleton;
-
     using std::pair;
 
     const name id = "pizza"_n;
     const name code = "pzaswapcntct"_n;
-    const string description = "Pizza Swap Converter";
+    const std::string description = "Pizza Swap Converter";
 
     /**
      * pair
